@@ -1,22 +1,16 @@
 import { cn } from '@/lib/utils'
 
-/**
- * Responsive auto-fill grid.
- * Centers content with justify-center for balanced layout.
- */
-export function GridContainer({
-  children,
-  className,
-  minColWidth = '92px',
-  gap = 'gap-3',
-}) {
+export function GridContainer({ children, className }) {
   return (
     <div
       className={cn(
-        'flex flex-wrap justify-center',
-        gap,
+        'grid gap-[10px] justify-center mx-auto',
         className
       )}
+      style={{
+        gridTemplateColumns: 'repeat(auto-fill, 110px)',
+        maxWidth: '100%',
+      }}
     >
       {children}
     </div>

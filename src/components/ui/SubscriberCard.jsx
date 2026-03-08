@@ -1,17 +1,12 @@
 import { useState, useRef, useEffect } from 'react'
 import { cn } from '@/lib/utils'
 
-/**
- * Subscriber card — Linear-style.
- * Clean white card, clear highlight on draw, bold winner state.
- */
 export function SubscriberCard({
   index,
   value,
   onChange,
   isHighlighted = false,
   isWinner = false,
-  size = 'md',
   ...rest
 }) {
   const [editing, setEditing] = useState(false)
@@ -39,16 +34,10 @@ export function SubscriberCard({
     if (e.key === 'Escape') { setLocalValue(value); setEditing(false) }
   }
 
-  const sizeStyles = {
-    sm: 'w-[68px] h-[34px] text-[11px]',
-    md: 'w-[92px] h-[40px] text-[12px]',
-    lg: 'w-[120px] h-[50px] text-[13px]',
-  }
-
   return (
     <div
       className={cn(
-        sizeStyles[size],
+        'w-[110px] h-[48px]',
         'relative rounded-[8px] flex items-center justify-center',
         'transition-all duration-[150ms] ease-[var(--ease-default)]',
         'cursor-pointer select-none',
@@ -56,24 +45,24 @@ export function SubscriberCard({
         // Default
         !isHighlighted && !isWinner && [
           'bg-white border border-[#E8B4BC]/25',
-          'shadow-[var(--shadow-sm)]',
-          'hover:border-[#D282A6]/40 hover:shadow-[var(--shadow-base)]',
+          'shadow-[0_1px_3px_rgba(58,50,56,0.06)]',
+          'hover:border-[#D282A6]/40 hover:shadow-[0_2px_8px_rgba(58,50,56,0.1)]',
         ],
 
-        // Highlighted — bright and very visible
+        // Highlighted — bright pink, very visible
         isHighlighted && !isWinner && [
-          'bg-[#FF6B9D] border-[#FF6B9D]',
-          'shadow-[0_0_20px_rgba(255,107,157,0.5),0_0_4px_rgba(255,107,157,0.3)]',
+          'bg-[#FF6B9D] border-[2px] border-white',
+          'shadow-[0_0_24px_rgba(255,107,157,0.6),0_0_6px_rgba(255,107,157,0.4)]',
           'animate-pulse-glow',
-          'scale-105',
+          'scale-[1.08]',
         ],
 
         // Winner
         isWinner && [
           'bg-gradient-to-br from-[#D282A6] to-[#FF6B9D]',
           'border-2 border-white',
-          'shadow-[0_0_30px_rgba(255,107,157,0.5),0_4px_16px_rgba(210,130,166,0.3)]',
-          'animate-winner scale-110 z-10',
+          'shadow-[0_0_32px_rgba(255,107,157,0.5),0_4px_16px_rgba(210,130,166,0.3)]',
+          'animate-winner scale-[1.12] z-10',
         ],
       )}
       onDoubleClick={handleDoubleClick}
@@ -82,8 +71,8 @@ export function SubscriberCard({
     >
       {/* Number badge */}
       <span className={cn(
-        'absolute -top-[6px] -left-[6px] text-[9px] font-semibold rounded-full',
-        'w-[18px] h-[18px] flex items-center justify-center leading-none',
+        'absolute -top-[7px] -left-[7px] text-[9px] font-bold rounded-full',
+        'w-[20px] h-[20px] flex items-center justify-center leading-none',
         isWinner
           ? 'bg-[#3A3238] text-white'
           : isHighlighted
@@ -101,15 +90,12 @@ export function SubscriberCard({
           onChange={(e) => setLocalValue(e.target.value)}
           onBlur={handleBlur}
           onKeyDown={handleKeyDown}
-          className={cn(
-            'w-full h-full bg-transparent text-center outline-none',
-            'text-[#3A3238] font-medium',
-          )}
+          className="w-full h-full bg-transparent text-center outline-none text-[#3A3238] font-medium text-[13px]"
           maxLength={20}
         />
       ) : (
         <span className={cn(
-          'truncate px-1 font-medium leading-none',
+          'truncate px-2 font-medium text-[13px] leading-none',
           isWinner || isHighlighted ? 'text-white' : 'text-[#3A3238]',
         )}>
           {localValue}

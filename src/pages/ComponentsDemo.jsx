@@ -212,12 +212,12 @@ export default function ComponentsDemo() {
               <div className="h-[1px] bg-[#E8B4BC]/20" />
               <div>
                 <span className="block text-[11px] font-medium tracking-[0.06em] uppercase text-[#9C7B88] mb-3 text-center">
-                  Sizes
+                  110×48px 직사각형 카드
                 </span>
                 <div className="flex flex-wrap gap-4 items-end justify-center">
-                  <SubscriberCard index={1} value="Small" size="sm" onChange={() => {}} />
-                  <SubscriberCard index={2} value="Medium" size="md" onChange={() => {}} />
-                  <SubscriberCard index={3} value="Large" size="lg" onChange={() => {}} />
+                  <SubscriberCard index={4} value="편집 가능" onChange={() => {}} />
+                  <SubscriberCard index={5} value="테스트" onChange={() => {}} />
+                  <SubscriberCard index={6} value="구독자" onChange={() => {}} />
                 </div>
               </div>
             </div>

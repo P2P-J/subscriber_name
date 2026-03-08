@@ -1,7 +1,6 @@
 import { useState, useEffect, useRef, useCallback } from 'react'
 import confetti from 'canvas-confetti'
 import {
-  Card,
   Button,
   Modal,
   ModalTitle,
@@ -32,12 +31,10 @@ export default function Home() {
   const prevHighlightRef = useRef(null)
   const gridRef = useRef(null)
 
-  // Save to localStorage
   useEffect(() => {
     localStorage.setItem(STORAGE_KEY, JSON.stringify(subscribers))
   }, [subscribers])
 
-  // Play tick on highlight change
   useEffect(() => {
     if (highlightedIndex !== null && highlightedIndex !== prevHighlightRef.current) {
       playTick()
@@ -45,7 +42,6 @@ export default function Home() {
     prevHighlightRef.current = highlightedIndex
   }, [highlightedIndex, playTick])
 
-  // Winner effect
   useEffect(() => {
     if (winnerIndex !== null) {
       playFanfare()
@@ -54,20 +50,8 @@ export default function Home() {
       const colors = ['#D282A6', '#FF6B9D', '#E8B4BC', '#6E4555']
 
       const frame = () => {
-        confetti({
-          particleCount: 4,
-          angle: 60,
-          spread: 55,
-          origin: { x: 0, y: 0.7 },
-          colors,
-        })
-        confetti({
-          particleCount: 4,
-          angle: 120,
-          spread: 55,
-          origin: { x: 1, y: 0.7 },
-          colors,
-        })
+        confetti({ particleCount: 4, angle: 60, spread: 55, origin: { x: 0, y: 0.7 }, colors })
+        confetti({ particleCount: 4, angle: 120, spread: 55, origin: { x: 1, y: 0.7 }, colors })
         if (Date.now() < end) requestAnimationFrame(frame)
       }
       frame()
@@ -95,28 +79,26 @@ export default function Home() {
   const handleDrawAgain = () => { closeModal(); reset() }
 
   return (
-    <div className="min-h-screen bg-[#F5E3E0] flex flex-col">
-      {/* Header */}
-      <header className="sticky top-0 z-40 bg-[#F5E3E0]/85 backdrop-blur-[12px] border-b border-[#E8B4BC]/30">
-        <div className="max-w-[1200px] mx-auto px-6 h-[52px] flex items-center justify-center gap-6">
-          <h1 className="text-[16px] font-semibold tracking-[-0.02em] text-[#3A3238]">
+    <div className="min-h-screen bg-[#F5E3E0]">
+      <div className="max-w-[1400px] mx-auto px-6 py-10">
+        {/* Title */}
+        <div className="text-center mb-8">
+          <h1 className="text-[28px] md:text-[36px] font-bold tracking-[-0.03em] text-[#3A3238] leading-[1.1]">
             🎉 최초 구독자 1,000명 리스트 🎉
           </h1>
-          <span className="text-[12px] text-[#9C7B88] hidden sm:inline">
-            더블클릭하여 이름 입력
-          </span>
+          <p className="mt-2 text-[14px] text-[#9C7B88]">
+            더블클릭하여 이름을 입력하세요
+          </p>
           <a
             href="/components"
-            className="text-[13px] font-medium text-[#D282A6] hover:text-[#C06E96] transition-colors"
+            className="inline-block mt-2 text-[13px] font-medium text-[#D282A6] hover:text-[#C06E96] transition-colors"
           >
-            컴포넌트 →
+            컴포넌트 데모 →
           </a>
         </div>
-      </header>
 
-      {/* Grid */}
-      <main className="flex-1 max-w-[1200px] mx-auto w-full px-6 py-8" ref={gridRef}>
-        <Card padding="lg" className="mx-auto">
+        {/* Grid */}
+        <div ref={gridRef}>
           <GridContainer>
             {subscribers.map((val, i) => (
               <SubscriberCard
@@ -130,12 +112,10 @@ export default function Home() {
               />
             ))}
           </GridContainer>
-        </Card>
-      </main>
+        </div>
 
-      {/* Bottom Draw Button */}
-      <div className="sticky bottom-0 z-40 bg-[#F5E3E0]/85 backdrop-blur-[12px] border-t border-[#E8B4BC]/30">
-        <div className="max-w-[1200px] mx-auto px-6 py-4 flex justify-center">
+        {/* Draw Button */}
+        <div className="flex justify-center py-10">
           <Button
             size="xl"
             onClick={startDraw}
@@ -163,11 +143,11 @@ export default function Home() {
             </span>
             <span className="block mt-2 text-[15px] text-[#6E4555]">님이 당첨되었습니다!</span>
           </ModalDescription>
-          <ModalFooter className="justify-center gap-2 mt-6">
-            <Button variant="secondary" onClick={handleDrawAgain}>
+          <ModalFooter className="justify-center gap-3 mt-6">
+            <Button variant="secondary" size="lg" onClick={handleDrawAgain}>
               다시 뽑기
             </Button>
-            <Button onClick={closeModal}>
+            <Button size="lg" onClick={closeModal}>
               확인
             </Button>
           </ModalFooter>
