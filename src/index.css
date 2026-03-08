@@ -1,0 +1,173 @@
+@import url('https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css');
+@import "tailwindcss";
+
+/* ==========================================================
+   Design System — Linear-inspired, custom palette
+
+   Palette:
+     Surface / BG  : #F5E3E0
+     Accent Light   : #E8B4BC
+     Accent Primary : #D282A6
+     Deep           : #6E4555
+     Dark           : #3A3238
+   ========================================================== */
+
+:root {
+  /* ---- Core palette ---- */
+  --c-bg:            #F5E3E0;
+  --c-bg-secondary:  #EDD5D1;
+  --c-bg-elevated:   #FFFFFF;
+  --c-surface:       #FFFFFF;
+  --c-surface-hover: #F0D4CF;
+  --c-surface-active:#E8C5BF;
+
+  --c-border:        #E8B4BC;
+  --c-border-subtle: rgba(210, 130, 166, 0.2);
+
+  --c-accent:        #D282A6;
+  --c-accent-hover:  #C06E96;
+  --c-accent-subtle: rgba(210, 130, 166, 0.12);
+  --c-accent-muted:  rgba(210, 130, 166, 0.06);
+
+  --c-deep:          #6E4555;
+  --c-dark:          #3A3238;
+
+  --c-text:          #3A3238;
+  --c-text-secondary:#6E4555;
+  --c-text-tertiary: #9C7B88;
+  --c-text-disabled: #BFA5AD;
+  --c-text-inverse:  #F5E3E0;
+
+  /* ---- Highlight (very visible during draw) ---- */
+  --c-highlight:     #FF6B9D;
+  --c-highlight-glow: rgba(255, 107, 157, 0.5);
+  --c-winner:        linear-gradient(135deg, #D282A6, #FF6B9D);
+  --c-winner-glow:   rgba(255, 107, 157, 0.6);
+
+  /* ---- Semantic ---- */
+  --c-success:       #26BD67;
+  --c-warning:       #F2994A;
+  --c-error:         #EB5757;
+
+  /* ---- Radius (Linear-style) ---- */
+  --radius-sm:   4px;
+  --radius-base: 6px;
+  --radius-md:   8px;
+  --radius-lg:   10px;
+  --radius-xl:   12px;
+  --radius-2xl:  16px;
+  --radius-3xl:  20px;
+  --radius-full: 9999px;
+
+  /* ---- Shadows (Linear-style, warm tones) ---- */
+  --shadow-sm:   0 1px 2px rgba(58, 50, 56, 0.06);
+  --shadow-base: 0 2px 8px rgba(58, 50, 56, 0.08);
+  --shadow-md:   0 4px 16px rgba(58, 50, 56, 0.10);
+  --shadow-lg:   0 8px 32px rgba(58, 50, 56, 0.12);
+  --shadow-xl:   0 16px 64px rgba(58, 50, 56, 0.16);
+  --shadow-card: 0 0 0 1px rgba(210,130,166,0.12), 0 2px 8px rgba(58,50,56,0.06);
+  --shadow-card-hover: 0 0 0 1px rgba(210,130,166,0.25), 0 8px 24px rgba(58,50,56,0.10);
+  --shadow-accent-glow: 0 0 20px rgba(210, 130, 166, 0.3);
+
+  /* ---- Transitions (Linear-style) ---- */
+  --ease-default: cubic-bezier(0.16, 1, 0.3, 1);
+  --transition-fast: 100ms;
+  --transition-base: 150ms;
+  --transition-slow: 250ms;
+}
+
+/* ========== Reset ========== */
+*, *::before, *::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* ========== Body ========== */
+body {
+  font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  background-color: var(--c-bg);
+  color: var(--c-text);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  line-height: 1.5;
+  letter-spacing: -0.01em;
+}
+
+/* ========== Scrollbar ========== */
+::-webkit-scrollbar { width: 6px; height: 6px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb {
+  background: var(--c-border);
+  border-radius: var(--radius-full);
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--c-accent);
+}
+
+/* ========== Animations ========== */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(8px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(16px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes pulse-glow {
+  0%, 100% {
+    box-shadow: 0 0 6px var(--c-highlight-glow);
+    background-color: rgba(255, 107, 157, 0.15);
+  }
+  50% {
+    box-shadow: 0 0 28px var(--c-highlight-glow), 0 0 8px var(--c-highlight-glow);
+    background-color: rgba(255, 107, 157, 0.35);
+  }
+}
+
+@keyframes winner-pop {
+  0%   { transform: scale(1); }
+  40%  { transform: scale(1.18); }
+  70%  { transform: scale(0.95); }
+  100% { transform: scale(1.08); }
+}
+
+@keyframes winner-ring {
+  0%   { box-shadow: 0 0 0 0px rgba(255,107,157,0.6); }
+  100% { box-shadow: 0 0 0 12px rgba(255,107,157,0); }
+}
+
+@keyframes modal-enter {
+  from { opacity: 0; transform: scale(0.95) translateY(10px); }
+  to   { opacity: 1; transform: scale(1) translateY(0); }
+}
+
+@keyframes confetti-bounce {
+  0%, 100% { transform: scale(1); }
+  50%      { transform: scale(1.08) rotate(2deg); }
+}
+
+@keyframes shimmer {
+  0%   { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+
+@keyframes spin-slow {
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(360deg); }
+}
+
+.animate-fade-in     { animation: fadeIn 0.3s var(--ease-default); }
+.animate-fade-in-up  { animation: fadeInUp 0.4s var(--ease-default); }
+.animate-pulse-glow  { animation: pulse-glow 0.35s ease-in-out; }
+.animate-winner      { animation: winner-pop 0.5s var(--ease-default); }
+.animate-winner-ring { animation: winner-ring 0.8s ease-out forwards; }
+.animate-modal-enter { animation: modal-enter 0.35s var(--ease-default); }
+.animate-confetti    { animation: confetti-bounce 0.6s ease-in-out infinite; }
+.animate-shimmer {
+  background: linear-gradient(90deg, transparent, rgba(210,130,166,0.15), transparent);
+  background-size: 200% 100%;
+  animation: shimmer 1.5s infinite;
+}
