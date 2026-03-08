@@ -1,15 +1,11 @@
 import { cn } from '@/lib/utils'
 
-export function GridContainer({ children, className }) {
+export function GridContainer({ children, className, columns = 10 }) {
   return (
     <div
-      className={cn(
-        'grid gap-[10px] justify-center mx-auto',
-        className
-      )}
+      className={cn('grid', className)}
       style={{
-        gridTemplateColumns: 'repeat(auto-fill, 110px)',
-        maxWidth: '100%',
+        gridTemplateColumns: `repeat(${columns}, 1fr)`,
       }}
     >
       {children}

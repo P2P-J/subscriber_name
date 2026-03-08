@@ -79,27 +79,24 @@ export default function Home() {
   const handleDrawAgain = () => { closeModal(); reset() }
 
   return (
-    <div className="min-h-screen bg-[#F5E3E0]">
-      <div className="max-w-[1400px] mx-auto px-6 py-10">
-        {/* Title */}
-        <div className="text-center mb-8">
-          <h1 className="text-[28px] md:text-[36px] font-bold tracking-[-0.03em] text-[#3A3238] leading-[1.1]">
-            🎉 최초 구독자 1,000명 리스트 🎉
-          </h1>
-          <p className="mt-2 text-[14px] text-[#9C7B88]">
-            더블클릭하여 이름을 입력하세요
-          </p>
-          <a
-            href="/components"
-            className="inline-block mt-2 text-[13px] font-medium text-[#D282A6] hover:text-[#C06E96] transition-colors"
-          >
-            컴포넌트 데모 →
-          </a>
-        </div>
+    <div className="min-h-screen bg-[#F5E3E0] flex flex-col items-center">
+      {/* Title */}
+      <div className="text-center pt-12 pb-2 px-4">
+        <h1 className="text-[40px] md:text-[52px] font-extrabold tracking-[-0.02em] text-[#3A3238] leading-[1.15]">
+          🎉 최초 구독자 1,000 명 리스트 🎉
+        </h1>
+        <p className="mt-3 text-[15px] text-[#9C7B88]">
+          더블 클릭하여 이름을 수정할 수 있습니다.
+        </p>
+      </div>
 
-        {/* Grid */}
-        <div ref={gridRef}>
-          <GridContainer>
+      {/* Grid Container — pink border box */}
+      <div
+        ref={gridRef}
+        className="w-full max-w-[1160px] mx-auto mt-8 mb-10 px-4"
+      >
+        <div className="border-2 border-[#E8B4BC]/50 rounded-[16px] bg-white/40 p-5">
+          <GridContainer columns={10}>
             {subscribers.map((val, i) => (
               <SubscriberCard
                 key={i}
@@ -113,19 +110,36 @@ export default function Home() {
             ))}
           </GridContainer>
         </div>
-
-        {/* Draw Button */}
-        <div className="flex justify-center py-10">
-          <Button
-            size="xl"
-            onClick={startDraw}
-            disabled={isDrawing}
-            className={isDrawing ? 'animate-pulse' : ''}
-          >
-            {isDrawing ? '🎰 추첨 중...' : '🎉 당첨자 뽑기'}
-          </Button>
-        </div>
       </div>
+
+      {/* Draw Button — wide rounded gradient */}
+      <div className="pb-16">
+        <button
+          onClick={startDraw}
+          disabled={isDrawing}
+          className={[
+            'px-16 py-5 rounded-full text-[20px] font-bold tracking-[-0.01em]',
+            'bg-gradient-to-r from-[#D282A6] to-[#E8B4BC] text-white',
+            'shadow-[0_4px_20px_rgba(210,130,166,0.35)]',
+            'hover:shadow-[0_6px_28px_rgba(210,130,166,0.45)] hover:brightness-105',
+            'active:scale-[0.97]',
+            'transition-all duration-200',
+            'disabled:opacity-50 disabled:cursor-not-allowed disabled:active:scale-100',
+            'cursor-pointer',
+            isDrawing ? 'animate-pulse' : '',
+          ].join(' ')}
+        >
+          {isDrawing ? '추첨 중... 🎰' : '행운의 당첨자 뽑기 🎁'}
+        </button>
+      </div>
+
+      {/* Component demo link */}
+      <a
+        href="/components"
+        className="fixed bottom-4 right-4 text-[12px] text-[#D282A6] hover:text-[#C06E96] transition-colors opacity-60 hover:opacity-100"
+      >
+        컴포넌트 데모 →
+      </a>
 
       {/* Winner Modal */}
       <Modal open={showWinnerModal} onClose={closeModal}>
