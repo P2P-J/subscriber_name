@@ -90,26 +90,24 @@ export default function Home() {
         </p>
       </div>
 
-      {/* Grid Container — pink border box */}
+      {/* Grid */}
       <div
         ref={gridRef}
-        className="w-full max-w-[1160px] mx-auto mt-8 mb-10 px-4"
+        className="w-full max-w-[1100px] mx-auto mt-8 mb-10 px-6"
       >
-        <div className="border-2 border-[#E8B4BC]/50 rounded-[16px] bg-white/40 p-5">
-          <GridContainer columns={10}>
-            {subscribers.map((val, i) => (
-              <SubscriberCard
-                key={i}
-                index={i + 1}
-                value={val}
-                onChange={(v) => handleSubscriberChange(i, v)}
-                isHighlighted={highlightedIndex === i}
-                isWinner={winnerIndex === i}
-                data-index={i}
-              />
-            ))}
-          </GridContainer>
-        </div>
+        <GridContainer columns={10} className="subscriber-grid">
+          {subscribers.map((val, i) => (
+            <SubscriberCard
+              key={i}
+              index={i + 1}
+              value={val}
+              onChange={(v) => handleSubscriberChange(i, v)}
+              isHighlighted={highlightedIndex === i}
+              isWinner={winnerIndex === i}
+              data-index={i}
+            />
+          ))}
+        </GridContainer>
       </div>
 
       {/* Draw Button — wide rounded gradient */}

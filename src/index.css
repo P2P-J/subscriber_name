@@ -171,3 +171,17 @@ body {
   background-size: 200% 100%;
   animation: shimmer 1.5s infinite;
 }
+
+/* ========== Subscriber Grid — shared borders like a table ========== */
+.subscriber-grid > div {
+  border-right: 1px solid #D8A5B2;
+  border-bottom: 1px solid #D8A5B2;
+}
+/* Remove right border on last column */
+.subscriber-grid > div:nth-child(10n) {
+  border-right: none;
+}
+/* Remove bottom border on last row */
+.subscriber-grid > div:nth-last-child(-n+10) {
+  border-bottom: none;
+}

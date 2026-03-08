@@ -37,31 +37,30 @@ export function SubscriberCard({
   return (
     <div
       className={cn(
-        'h-[42px] flex items-center justify-center',
-        'transition-all duration-[150ms] ease-[var(--ease-default)]',
+        'h-[40px] flex items-center justify-center',
+        'transition-all duration-[150ms]',
         'cursor-pointer select-none',
-        'border border-[#E8B4BC]/40',
+        // Shared border trick: right and bottom only, first-col gets left, first-row gets top
+        // Handled by the grid wrapper instead — here just bg + text
 
         // Default
         !isHighlighted && !isWinner && [
           'bg-white',
-          'hover:bg-[#FDF5F3] hover:border-[#D282A6]/50',
+          'hover:bg-[#FDF5F3]',
         ],
 
-        // Highlighted — bright pink, very visible
+        // Highlighted
         isHighlighted && !isWinner && [
-          'bg-[#FF6B9D] border-[#FF6B9D]',
-          'shadow-[0_0_20px_rgba(255,107,157,0.5)]',
+          'bg-[#FF6B9D] relative z-[5]',
+          'shadow-[0_0_16px_rgba(255,107,157,0.5)]',
           'animate-pulse-glow',
-          'scale-[1.05] z-[5]',
         ],
 
         // Winner
         isWinner && [
-          'bg-gradient-to-br from-[#D282A6] to-[#FF6B9D]',
-          'border-[#D282A6]',
-          'shadow-[0_0_28px_rgba(255,107,157,0.5)]',
-          'animate-winner scale-[1.08] z-10',
+          'bg-gradient-to-br from-[#D282A6] to-[#FF6B9D] relative z-10',
+          'shadow-[0_0_24px_rgba(255,107,157,0.5)]',
+          'animate-winner',
         ],
       )}
       onDoubleClick={handleDoubleClick}
