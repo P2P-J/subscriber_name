@@ -37,29 +37,27 @@ export function SubscriberCard({
   return (
     <div
       className={cn(
-        'h-[40px] flex items-center justify-center',
-        'transition-all duration-[150ms]',
+        'h-[42px] flex items-center justify-center',
+        'transition-all duration-200',
         'cursor-pointer select-none',
-        // Shared border trick: right and bottom only, first-col gets left, first-row gets top
-        // Handled by the grid wrapper instead — here just bg + text
 
         // Default
         !isHighlighted && !isWinner && [
           'bg-white',
-          'hover:bg-[#FDF5F3]',
+          'hover:bg-[#FBF0EE]',
         ],
 
         // Highlighted
         isHighlighted && !isWinner && [
           'bg-[#FF6B9D] relative z-[5]',
-          'shadow-[0_0_16px_rgba(255,107,157,0.5)]',
+          'shadow-[0_0_16px_rgba(255,107,157,0.45)]',
           'animate-pulse-glow',
         ],
 
         // Winner
         isWinner && [
           'bg-gradient-to-br from-[#D282A6] to-[#FF6B9D] relative z-10',
-          'shadow-[0_0_24px_rgba(255,107,157,0.5)]',
+          'shadow-[0_0_20px_rgba(255,107,157,0.45)]',
           'animate-winner',
         ],
       )}

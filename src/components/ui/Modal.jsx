@@ -1,10 +1,6 @@
 import { useEffect, useRef } from 'react'
 import { cn } from '@/lib/utils'
 
-/**
- * Linear-style modal.
- * Clean card overlay, subtle backdrop blur.
- */
 export function Modal({ open, onClose, children, className }) {
   const overlayRef = useRef(null)
 
@@ -35,10 +31,10 @@ export function Modal({ open, onClose, children, className }) {
         if (e.target === overlayRef.current) onClose?.()
       }}
     >
-      {/* Backdrop */}
+    
       <div className="absolute inset-0 bg-[#3A3238]/50 backdrop-blur-[8px]" />
 
-      {/* Content */}
+  
       <div
         className={cn(
           'relative bg-white rounded-[12px] p-6',
