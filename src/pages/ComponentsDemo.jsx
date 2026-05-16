@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState } from "react";
 import {
   Card,
   Button,
@@ -10,38 +10,38 @@ import {
   GridContainer,
   SectionTitle,
   Badge,
-} from '@/components/ui'
+} from "@/components/ui";
 
 export default function ComponentsDemo() {
-  const [modalOpen, setModalOpen] = useState(false)
+  const [modalOpen, setModalOpen] = useState(false);
   const [subscribers, setSubscribers] = useState(
-    Array.from({ length: 20 }, (_, i) => String(i + 1))
-  )
-  const [highlightedIdx, setHighlightedIdx] = useState(null)
-  const [winnerIdx, setWinnerIdx] = useState(null)
+    Array.from({ length: 20 }, (_, i) => String(i + 1)),
+  );
+  const [highlightedIdx, setHighlightedIdx] = useState(null);
+  const [winnerIdx, setWinnerIdx] = useState(null);
 
   const handleSubscriberChange = (idx, val) => {
     setSubscribers((prev) => {
-      const next = [...prev]
-      next[idx] = val
-      return next
-    })
-  }
+      const next = [...prev];
+      next[idx] = val;
+      return next;
+    });
+  };
 
   const demoHighlight = () => {
-    setWinnerIdx(null)
-    let i = 0
+    setWinnerIdx(null);
+    let i = 0;
     const interval = setInterval(() => {
-      setHighlightedIdx(i % 20)
-      i++
+      setHighlightedIdx(i % 20);
+      i++;
       if (i > 30) {
-        clearInterval(interval)
-        const winner = Math.floor(Math.random() * 20)
-        setHighlightedIdx(null)
-        setWinnerIdx(winner)
+        clearInterval(interval);
+        const winner = Math.floor(Math.random() * 20);
+        setHighlightedIdx(null);
+        setWinnerIdx(winner);
       }
-    }, 100)
-  }
+    }, 100);
+  };
 
   return (
     <div className="min-h-screen bg-[#F5E3E0]">
@@ -71,20 +71,24 @@ export default function ComponentsDemo() {
           <Card padding="lg">
             <div className="flex flex-wrap gap-5 justify-center">
               {[
-                { hex: '#F5E3E0', name: 'Surface', desc: '배경' },
-                { hex: '#E8B4BC', name: 'Accent Light', desc: '보조 강조' },
-                { hex: '#D282A6', name: 'Accent', desc: '주요 액센트' },
-                { hex: '#6E4555', name: 'Deep', desc: '텍스트 보조' },
-                { hex: '#3A3238', name: 'Dark', desc: '텍스트 주요' },
-                { hex: '#FF6B9D', name: 'Highlight', desc: '추첨 하이라이트' },
+                { hex: "#F5E3E0", name: "Surface", desc: "배경" },
+                { hex: "#E8B4BC", name: "Accent Light", desc: "보조 강조" },
+                { hex: "#D282A6", name: "Accent", desc: "주요 액센트" },
+                { hex: "#6E4555", name: "Deep", desc: "텍스트 보조" },
+                { hex: "#3A3238", name: "Dark", desc: "텍스트 주요" },
+                { hex: "#FF6B9D", name: "Highlight", desc: "추첨 하이라이트" },
               ].map((c) => (
                 <div key={c.hex} className="flex flex-col items-center gap-2">
                   <div
                     className="w-16 h-16 rounded-[10px] border border-[#E8B4BC]/30 shadow-[var(--shadow-base)]"
                     style={{ backgroundColor: c.hex }}
                   />
-                  <span className="text-[12px] font-medium text-[#3A3238]">{c.name}</span>
-                  <span className="text-[11px] text-[#6E4555]/50 font-mono">{c.hex}</span>
+                  <span className="text-[12px] font-medium text-[#3A3238]">
+                    {c.name}
+                  </span>
+                  <span className="text-[11px] text-[#6E4555]/50 font-mono">
+                    {c.hex}
+                  </span>
                 </div>
               ))}
             </div>
@@ -97,12 +101,15 @@ export default function ComponentsDemo() {
             Card
           </SectionTitle>
           <div className="flex flex-wrap gap-4 justify-center">
-            {['sm', 'md', 'lg'].map((pad) => (
+            {["sm", "md", "lg"].map((pad) => (
               <Card key={pad} padding={pad} hover className="min-w-[180px]">
                 <p className="text-[13px] text-[#6E4555]">
-                  padding: <span className="text-[#3A3238] font-semibold">{pad}</span>
+                  padding:{" "}
+                  <span className="text-[#3A3238] font-semibold">{pad}</span>
                 </p>
-                <p className="text-[11px] text-[#9C7B88] mt-1">Hover to see shadow</p>
+                <p className="text-[11px] text-[#9C7B88] mt-1">
+                  Hover to see shadow
+                </p>
               </Card>
             ))}
           </div>
@@ -124,7 +131,9 @@ export default function ComponentsDemo() {
                   <Button variant="secondary">Secondary</Button>
                   <Button variant="ghost">Ghost</Button>
                   <Button variant="danger">Danger</Button>
-                  <Button variant="primary" disabled>Disabled</Button>
+                  <Button variant="primary" disabled>
+                    Disabled
+                  </Button>
                 </div>
               </div>
               <div className="h-[1px] bg-[#E8B4BC]/20" />
@@ -162,7 +171,10 @@ export default function ComponentsDemo() {
 
         {/* ===== Modal ===== */}
         <section className="mb-12 animate-fade-in">
-          <SectionTitle label="Overlay" subtitle="당첨자 발표 등에 사용되는 모달">
+          <SectionTitle
+            label="Overlay"
+            subtitle="당첨자 발표 등에 사용되는 모달"
+          >
             Modal
           </SectionTitle>
           <div className="flex justify-center">
@@ -173,10 +185,13 @@ export default function ComponentsDemo() {
               <div className="text-[48px] mb-3">🎉</div>
               <ModalTitle className="text-center">축하합니다!</ModalTitle>
               <ModalDescription className="text-center">
-                당첨자: <span className="text-[#3A3238] font-bold">홍길동</span>님이 선정되었습니다!
+                당첨자: <span className="text-[#3A3238] font-bold">홍길동</span>
+                님이 선정되었습니다!
               </ModalDescription>
               <ModalFooter className="justify-center">
-                <Button variant="secondary" onClick={() => setModalOpen(false)}>닫기</Button>
+                <Button variant="secondary" onClick={() => setModalOpen(false)}>
+                  닫기
+                </Button>
                 <Button onClick={() => setModalOpen(false)}>확인</Button>
               </ModalFooter>
             </div>
@@ -185,7 +200,10 @@ export default function ComponentsDemo() {
 
         {/* ===== SubscriberCard ===== */}
         <section className="mb-12 animate-fade-in">
-          <SectionTitle label="Core" subtitle="더블클릭하여 편집 가능한 구독자 카드">
+          <SectionTitle
+            label="Core"
+            subtitle="더블클릭하여 편집 가능한 구독자 카드"
+          >
             SubscriberCard
           </SectionTitle>
           <Card padding="lg">
@@ -196,15 +214,31 @@ export default function ComponentsDemo() {
                 </span>
                 <div className="flex flex-wrap gap-5 items-end justify-center">
                   <div className="text-center">
-                    <SubscriberCard index={1} value="기본" onChange={() => {}} />
+                    <SubscriberCard
+                      index={1}
+                      value="기본"
+                      onChange={() => {}}
+                    />
                     <p className="text-[11px] text-[#9C7B88] mt-2">Default</p>
                   </div>
                   <div className="text-center">
-                    <SubscriberCard index={2} value="하이라이트" isHighlighted onChange={() => {}} />
-                    <p className="text-[11px] text-[#9C7B88] mt-2">Highlighted</p>
+                    <SubscriberCard
+                      index={2}
+                      value="하이라이트"
+                      isHighlighted
+                      onChange={() => {}}
+                    />
+                    <p className="text-[11px] text-[#9C7B88] mt-2">
+                      Highlighted
+                    </p>
                   </div>
                   <div className="text-center">
-                    <SubscriberCard index={3} value="당첨!" isWinner onChange={() => {}} />
+                    <SubscriberCard
+                      index={3}
+                      value="당첨!"
+                      isWinner
+                      onChange={() => {}}
+                    />
                     <p className="text-[11px] text-[#9C7B88] mt-2">Winner</p>
                   </div>
                 </div>
@@ -215,9 +249,21 @@ export default function ComponentsDemo() {
                   110×48px 직사각형 카드
                 </span>
                 <div className="flex flex-wrap gap-4 items-end justify-center">
-                  <SubscriberCard index={4} value="편집 가능" onChange={() => {}} />
-                  <SubscriberCard index={5} value="테스트" onChange={() => {}} />
-                  <SubscriberCard index={6} value="구독자" onChange={() => {}} />
+                  <SubscriberCard
+                    index={4}
+                    value="편집 가능"
+                    onChange={() => {}}
+                  />
+                  <SubscriberCard
+                    index={5}
+                    value="테스트"
+                    onChange={() => {}}
+                  />
+                  <SubscriberCard
+                    index={6}
+                    value="구독자"
+                    onChange={() => {}}
+                  />
                 </div>
               </div>
             </div>
@@ -226,7 +272,10 @@ export default function ComponentsDemo() {
 
         {/* ===== Grid + Animation Demo ===== */}
         <section className="mb-12 animate-fade-in">
-          <SectionTitle label="Interactive" subtitle="그리드 레이아웃 + 추첨 애니메이션 데모">
+          <SectionTitle
+            label="Interactive"
+            subtitle="그리드 레이아웃 + 추첨 애니메이션 데모"
+          >
             GridContainer + 추첨 데모
           </SectionTitle>
 
@@ -254,7 +303,10 @@ export default function ComponentsDemo() {
 
         {/* ===== SectionTitle ===== */}
         <section className="mb-12 animate-fade-in">
-          <SectionTitle label="Typography" subtitle="섹션 구분을 위한 타이틀 컴포넌트">
+          <SectionTitle
+            label="Typography"
+            subtitle="섹션 구분을 위한 타이틀 컴포넌트"
+          >
             SectionTitle
           </SectionTitle>
           <Card padding="lg">
@@ -270,5 +322,5 @@ export default function ComponentsDemo() {
         </footer>
       </div>
     </div>
-  )
+  );
 }
