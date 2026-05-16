@@ -7,6 +7,7 @@ export function SubscriberCard({
   onChange,
   isHighlighted = false,
   isWinner = false,
+  isEditable = true,
   ...rest
 }) {
   const [editing, setEditing] = useState(false)
@@ -22,7 +23,10 @@ export function SubscriberCard({
     }
   }, [editing])
 
-  const handleDoubleClick = () => setEditing(true)
+  const handleDoubleClick = () => {
+    if (!isEditable) return
+    setEditing(true)
+  }
 
   const handleBlur = () => {
     setEditing(false)
@@ -39,7 +43,8 @@ export function SubscriberCard({
       className={cn(
         'h-[42px] flex items-center justify-center',
         'transition-all duration-200',
-        'cursor-pointer select-none',
+        'select-none',
+        isEditable ? 'cursor-pointer' : 'cursor-default',
 
         // Default
         !isHighlighted && !isWinner && [
@@ -62,7 +67,7 @@ export function SubscriberCard({
         ],
       )}
       onDoubleClick={handleDoubleClick}
-      title="더블클릭하여 편집"
+      title={isEditable ? "더블클릭하여 편집" : undefined}
       {...rest}
     >
       {editing ? (

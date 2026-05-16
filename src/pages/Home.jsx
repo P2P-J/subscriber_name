@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef, useCallback } from "react";
+import { useState, useEffect, useRef } from "react";
 import confetti from "canvas-confetti";
 import {
   Button,
@@ -9,33 +9,25 @@ import {
   SubscriberCard,
   GridContainer,
 } from "@/components/ui";
+import { AdminLoginModal } from "@/components/AdminLoginModal";
 import { useRandomDraw } from "@/hooks/useRandomDraw";
 import { useSoundEffects } from "@/hooks/useSoundEffects";
+import { useSubscribers } from "@/hooks/useSubscribers";
+import { useAdminAuth } from "@/hooks/useAdminAuth";
 import { cn } from "@/lib/utils";
 
 const TOTAL = 1000;
-const STORAGE_KEY = "subscriber-list-v1";
-
-function loadSubscribers() {
-  try {
-    const saved = localStorage.getItem(STORAGE_KEY);
-    if (saved) return JSON.parse(saved);
-  } catch {}
-  return Array.from({ length: TOTAL }, (_, i) => String(i + 1));
-}
 
 export default function Home() {
-  const [subscribers, setSubscribers] = useState(loadSubscribers);
+  const { subscribers, loading, updateSubscriber } = useSubscribers();
+  const { isAdmin, signIn, signOut } = useAdminAuth();
+  const [loginOpen, setLoginOpen] = useState(false);
   const [showWinnerModal, setShowWinnerModal] = useState(false);
   const { isDrawing, highlightedIndex, winnerIndex, startDraw, reset } =
     useRandomDraw(TOTAL);
   const { playTick, playFanfare } = useSoundEffects();
   const prevHighlightRef = useRef(null);
   const gridRef = useRef(null);
-
-  useEffect(() => {
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(subscribers));
-  }, [subscribers]);
 
   useEffect(() => {
     if (
@@ -86,13 +78,9 @@ export default function Home() {
     }
   }, [winnerIndex, playFanfare]);
 
-  const handleSubscriberChange = useCallback((idx, val) => {
-    setSubscribers((prev) => {
-      const next = [...prev];
-      next[idx] = val;
-      return next;
-    });
-  }, []);
+  const handleSubscriberChange = (idx, val) => {
+    updateSubscriber(idx, val);
+  };
 
   const closeModal = () => setShowWinnerModal(false);
   const handleDrawAgain = () => {
@@ -102,6 +90,30 @@ export default function Home() {
 
   return (
     <div className="min-h-screen bg-[#F5E3E0] flex flex-col items-center">
+      {/* Admin controls (top right) */}
+      <div className="fixed top-4 right-4 z-30 flex items-center gap-2">
+        {isAdmin ? (
+          <>
+            <span className="text-[12px] text-[#6E4555] bg-white/70 px-2 py-1 rounded-[6px]">
+              관리자 모드
+            </span>
+            <button
+              onClick={signOut}
+              className="text-[12px] text-[#6E4555] hover:text-[#D282A6] bg-white/70 hover:bg-white px-3 py-1 rounded-[6px] transition-colors"
+            >
+              로그아웃
+            </button>
+          </>
+        ) : (
+          <button
+            onClick={() => setLoginOpen(true)}
+            className="text-[12px] text-[#6E4555] hover:text-[#D282A6] bg-white/70 hover:bg-white px-3 py-1 rounded-[6px] transition-colors"
+          >
+            관리자 로그인
+          </button>
+        )}
+      </div>
+
       {/* Header */}
       <header
         className="w-full bg-[#F5E3E0]"
@@ -112,7 +124,9 @@ export default function Home() {
             🎉 최초 구독자 1,000 명 리스트 🎉
           </h1>
           <p className="text-[15px] text-[#9C7B88] mt-4">
-            더블 클릭하여 이름을 수정할 수 있습니다.
+            {isAdmin
+              ? "더블 클릭하여 이름을 수정할 수 있습니다."
+              : "관리자가 입력한 구독자 명단입니다."}
           </p>
         </div>
       </header>
@@ -123,25 +137,32 @@ export default function Home() {
         style={{ marginBottom: 64 }}
       >
         <div className="rounded-[16px] border-2 border-[#E8B4BC]/60 bg-[#FDF5F3] p-5 shadow-[0_2px_16px_rgba(210,130,166,0.1)]">
-          <div
-            ref={gridRef}
-            className="rounded-[12px] subscriber-scroll overflow-y-auto"
-            style={{ maxHeight: 1008 }}
-          >
-            <GridContainer columns={10} className="subscriber-grid">
-              {subscribers.map((val, i) => (
-                <SubscriberCard
-                  key={i}
-                  index={i + 1}
-                  value={val}
-                  onChange={(v) => handleSubscriberChange(i, v)}
-                  isHighlighted={highlightedIndex === i}
-                  isWinner={winnerIndex === i}
-                  data-index={i}
-                />
-              ))}
-            </GridContainer>
-          </div>
+          {loading ? (
+            <div className="flex items-center justify-center py-20 text-[#9C7B88] text-[14px]">
+              구독자 명단 불러오는 중...
+            </div>
+          ) : (
+            <div
+              ref={gridRef}
+              className="rounded-[12px] subscriber-scroll overflow-y-auto"
+              style={{ maxHeight: 1008 }}
+            >
+              <GridContainer columns={10} className="subscriber-grid">
+                {subscribers.map((val, i) => (
+                  <SubscriberCard
+                    key={i}
+                    index={i + 1}
+                    value={val}
+                    onChange={(v) => handleSubscriberChange(i, v)}
+                    isHighlighted={highlightedIndex === i}
+                    isWinner={winnerIndex === i}
+                    isEditable={isAdmin}
+                    data-index={i}
+                  />
+                ))}
+              </GridContainer>
+            </div>
+          )}
         </div>
       </div>
 
@@ -149,7 +170,7 @@ export default function Home() {
       <div className="pb-20">
         <button
           onClick={startDraw}
-          disabled={isDrawing}
+          disabled={isDrawing || loading}
           className={cn(
             "h-[72px] px-24 rounded-[16px]",
             "text-[20px] font-bold tracking-[-0.01em]",
@@ -174,6 +195,13 @@ export default function Home() {
       >
         컴포넌트 데모 →
       </a>
+
+      {/* Admin Login Modal */}
+      <AdminLoginModal
+        open={loginOpen}
+        onClose={() => setLoginOpen(false)}
+        onSignIn={signIn}
+      />
 
       {/* Winner Modal */}
       <Modal open={showWinnerModal} onClose={closeModal}>
